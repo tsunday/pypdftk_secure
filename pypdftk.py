@@ -258,3 +258,21 @@ def uncompress(pdf_path, out_file=None, flatten=True):
     '''
 
     return pdftk_cmd_util(pdf_path, "uncompress", out_file, flatten)
+
+
+def decrypt(pdf_path, pdf_pw, out_file=None):
+    '''
+    Use this function to decrypt given PDF file using the encryption password.
+    :param pdf_path: input PDF file
+    :param pdf_pwd: input PDF password
+    :param out_file: (default=auto) : output PDF path. will use tempfile if not provided
+    :return: name of the output file.
+    '''
+    cmd = "%s %s input_pw %s output %s" % (PDFTK_PATH, pdf_path, pdf_pw, out_file)
+
+    try:
+        run_command(cmd, True)
+    except:
+        raise
+    
+    return out_file
