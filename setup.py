@@ -6,7 +6,7 @@ setup(
     description='''Python wrapper for PDFTK''',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    version='0.5',
+    version='0.6',
     author='Julien Bouquillon',
     author_email='julien@revolunet.com',
     url='https://github.com/tsunday/pypdftk_secure',
