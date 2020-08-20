@@ -43,6 +43,7 @@ def run_command(command, shell=False):
     p = check_output(command, shell=shell)
     return p.decode("utf-8").splitlines()
 
+
 try:
     run_command([PDFTK_PATH])
 except OSError:
@@ -84,6 +85,7 @@ def fill_form(pdf_path, datas={}, out_file=None, flatten=True):
     os.remove(tmp_fdf)
     return out_file
 
+
 def dump_data_fields(pdf_path):
     '''
         Return list of dicts of all fields in a PDF.
@@ -92,6 +94,7 @@ def dump_data_fields(pdf_path):
     field_data = map(lambda x: x.split(': ', 1), run_command(cmd, True))
     fields = [list(group) for k, group in itertools.groupby(field_data, lambda x: len(x) == 1) if not k]
     return [dict(f) for f in fields]
+
 
 def concat(files, out_file=None):
     '''
@@ -158,6 +161,7 @@ def gen_xfdf(datas={}):
     f.close()
     return out_file
 
+
 def replace_page(pdf_path, page_number, pdf_to_insert_path):
     '''
     Replace a page in a PDF (pdf_path) by the PDF pointed by pdf_to_insert_path.
@@ -185,6 +189,7 @@ def replace_page(pdf_path, page_number, pdf_to_insert_path):
     shutil.copy(output_temp, pdf_path)
     os.remove(output_temp)
 
+
 def stamp(pdf_path, stamp_pdf_path, output_pdf_path=None):
     '''
     Applies a stamp (from stamp_pdf_path) to the PDF file in pdf_path. Useful for watermark purposes.
@@ -195,7 +200,8 @@ def stamp(pdf_path, stamp_pdf_path, output_pdf_path=None):
     run_command(args)
     return output
 
-def pdftk_cmd_util(pdf_path, action="compress",out_file=None, flatten=True):
+
+def pdftk_cmd_util(pdf_path, action="compress", out_file=None, flatten=True):
     '''
     :type action: should valid action, in string format. Eg: "uncompress"
     :param pdf_path: input PDF file
@@ -260,12 +266,12 @@ def uncompress(pdf_path, out_file=None, flatten=True):
     return pdftk_cmd_util(pdf_path, "uncompress", out_file, flatten)
 
 
-def decrypt(pdf_path, pdf_pw, out_file=None):
+def decrypt(pdf_path, pdf_pw, out_file):
     '''
     Use this function to decrypt given PDF file using the encryption password.
     :param pdf_path: input PDF file
     :param pdf_pwd: input PDF password
-    :param out_file: (default=auto) : output PDF path. will use tempfile if not provided
+    :param out_file: output PDF path
     :return: name of the output file.
     '''
     cmd = "%s %s input_pw %s output %s" % (PDFTK_PATH, pdf_path, pdf_pw, out_file)
@@ -274,5 +280,23 @@ def decrypt(pdf_path, pdf_pw, out_file=None):
         run_command(cmd, True)
     except:
         raise
-    
+
+    return out_file
+
+
+def encrypt(pdf_path, out_file, user_pw=None, owner_pw=None):
+    '''
+    :param pdf_path: input PDF file
+    :param out_file: output PDF path
+    :param user_pw: (default=None) : password required for viewing the file
+    :param owner_pw: (default=None): password required for editing the file
+    :return: name of the output file.
+    '''
+    cmd = "%s %s owner_pw %s output %s" % (PDFTK_PATH, pdf_path, owner_pw, out_file)
+
+    try:
+        run_command(cmd, True)
+    except:
+        raise
+
     return out_file

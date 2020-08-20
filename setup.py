@@ -2,13 +2,14 @@
 from distutils.core import setup
 
 setup(
-    name='pypdftk',
+    name='pypdftk_secure',
     description='''Python wrapper for PDFTK''',
     long_description=open('README.md').read(),
-    version='0.4',
+    long_description_content_type='text/markdown',
+    version='0.5',
     author='Julien Bouquillon',
     author_email='julien@revolunet.com',
-    url='http://github.com/revolunet/pypdftk',
+    url='https://github.com/tsunday/pypdftk_secure',
     py_modules=['pypdftk'],
     scripts=['pypdftk.py'],
     classifiers=['Development Status :: 4 - Beta',
