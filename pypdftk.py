@@ -292,7 +292,7 @@ def encrypt(pdf_path, out_file, user_pw=None, owner_pw=None):
     :param owner_pw: (default=None): password required for editing the file
     :return: name of the output file.
     '''
-    cmd = "%s %s owner_pw %s output %s" % (PDFTK_PATH, pdf_path, owner_pw, out_file)
+    cmd = "%s %s output %s owner_pw %s" % (PDFTK_PATH, pdf_path, out_file, owner_pw)
 
     try:
         run_command(cmd, True)
